@@ -48,7 +48,7 @@ body{
 
 .container button{
     /* background-color: #2da0a8; */
-    background-color: #f907fc;
+    background-color: #8810c5;
     /* background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%); */
     color: #fff;
     font-size: 12px;
@@ -166,8 +166,9 @@ body{
     /* background-color: #2da0a8; */
     height: 100%;
     /* background: linear-gradient(to right, #5c6bc0, #2da0a8); */
-    background-color: #f907fc;
-    background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%);
+    /* background-color: #f907fc;
+    background-image: linear-gradient(315deg, #f907fc 0%, #05d6d9 74%); */
+     background: linear-gradient(135deg, #667eea, #764ba2);
     color: #fff;
     position: relative;
     left: -100%;
