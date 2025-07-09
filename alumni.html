@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alumni Details - Alumni Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="alumni.css">
+</head>
+<body>
+  <!-- Mobile Menu Toggle -->
+  <button class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Campus Chain</h2>
+    </div>
+    <div class="sidebar-nav">
+      <ul>
+        <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="event.html"><i class="fas fa-calendar-alt"></i> Events</a></li>
+        <li><a href="#" class="active"><i class="fas fa-user-graduate"></i> Alumni</a></li>
+        <li><a href="/profile"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <h1>
+        <i class="fas fa-user-graduate"></i>
+        Alumni Directory
+      </h1>
+      <div class="profile-section">
+        <div class="profile-dropdown">
+          <div class="profile-info">
+            <div class="profile-avatar">BK</div>
+            <div class="profile-text">
+              <h3>Bhavya Kapoor</h3>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="dropdown-content">
+            <a href="/profile"><i class="fas fa-user"></i> My Profile</a>
+            <a href="/saved-events"><i class="fas fa-bookmark"></i> Saved Events</a>
+            <a href="/settings"><i class="fas fa-cog"></i> Settings</a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Filter -->
+    <div class="search-filter">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search alumni by name...">
+      </div>
+      <div class="filter-group">
+        <select id="collegeFilter" class="filter-select">
+          <option value="all">All Colleges</option>
+          <option value="IIT Bombay">IIT Bombay</option>
+          <option value="IIT Delhi">IIT Delhi</option>
+          <option value="IIT Bangalore">IIT Bangalore</option>
+        </select>
+        <select id="locationFilter" class="filter-select">
+          <option value="all">All Locations</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Bangalore">Bangalore</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Alumni Grid -->
+    <div class="alumni-grid" id="alumniGrid">
+      <a href="/profile.html" class="alumni-card" data-college="IIT Bombay" data-location="Mumbai">
+        <div class="alumni-image">
+          <img src="https://via.placeholder.com/150" alt="Alumni Profile">
+        </div>
+        <div class="alumni-content">
+          <div class="alumni-header">
+            <h2>Ananya Sharma</h2>
+            <span class="badge">
+              <i class="fas fa-check-circle"></i>
+              Verified
+            </span>
+          </div>
+          <div class="alumni-meta">
+            <div class="alumni-college">
+              <i class="fas fa-university"></i>
+              <span>IIT Bombay</span>
+            </div>
+            <div class="alumni-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Mumbai, India</span>
+            </div>
+            <div class="alumni-status">
+              <i class="fas fa-briefcase"></i>
+              <span>Software Engineer at Google</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/profile.html" class="alumni-card" data-college="IIT Delhi" data-location="Delhi">
+        <div class="alumni-image">
+          <img src="https://via.placeholder.com/150" alt="Alumni Profile">
+        </div>
+        <div class="alumni-content">
+          <div class="alumni-header">
+            <h2>Rahul Verma</h2>
+            <span class="badge">
+              <i class="fas fa-check-circle"></i>
+              Verified
+            </span>
+          </div>
+          <div class="alumni-meta">
+            <div class="alumni-college">
+              <i class="fas fa-university"></i>
+              <span>IIT Delhi</span>
+            </div>
+            <div class="alumni-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Delhi, India</span>
+            </div>
+            <div class="alumni-status">
+              <i class="fas fa-briefcase"></i>
+              <span>Product Manager at Microsoft</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="/profile.html" class="alumni-card" data-college="IIT Bangalore" data-location="Bangalore">
+        <div class="alumni-image">
+          <img src="https://via.placeholder.com/150" alt="Alumni Profile">
+        </div>
+        <div class="alumni-content">
+          <div class="alumni-header">
+            <h2>Priya Nair</h2>
+            <span class="badge">
+              <i class="fas fa-check-circle"></i>
+              Verified
+            </span>
+          </div>
+          <div class="alumni-meta">
+            <div class="alumni-college">
+              <i class="fas fa-university"></i>
+              <span>IIT Bangalore</span>
+            </div>
+            <div class="alumni-location">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Bangalore, India</span>
+            </div>
+            <div class="alumni-status">
+              <i class="fas fa-briefcase"></i>
+              <span>Data Scientist at Amazon</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+      <i class="fas fa-search"></i>
+      <h3>No alumni found</h3>
+      <p>Try adjusting your search or filters to find more alumni.</p>
+    </div>
+  </div>
+
+  <script src="alumni.js"></script>
+</body>
+</html>
