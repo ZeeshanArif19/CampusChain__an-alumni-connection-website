@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusChain - Connect with Alumni</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .hero {
+      position: relative;
+      background-image: url('https://hips.hearstapps.com/hmg-prod/images/general-view-of-the-campus-of-the-university-of-cincinnati-news-photo-138784429-1556908601.jpg?crop=1.00xw:0.849xh;0,0.0769xh&resize=980:*');
+      background-size: cover;
+      background-position: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+    .hero > .z-10 {
+      position: relative;
+      z-index: 1;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    .button-gradient {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+  </style>
+</head>
+<body class="text-white">
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex flex-col justify-center items-center text-center px-6 hero">
+    <div class="z-10">
+      <h1 class="text-5xl font-bold mb-4">Welcome to <span class="text-gradient">CampusChain</span></h1>
+      <p class="text-xl max-w-xl mb-8">Connect with alumni, unlock career opportunities, and grow your network beyond college.</p>
+      <div class="space-x-4">
+        <a href="signup.html?mode=signup" class="button-gradient px-6 py-3 rounded-full text-white font-semibold hover:opacity-90 transition">Get Started</a>
+        <a href="signup.html?mode=login" class="px-6 py-3 rounded-full border border-white hover:bg-white hover:text-indigo-900 transition">Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-white text-gray-800">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-12">What You Can Do</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="text-center p-6 bg-gray-100 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <i class="fas fa-user-friends text-indigo-600 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Connect with Alumni</h3>
+          <p>Search and connect with verified alumni from your college and build your professional network.</p>
+        </div>
+        <div class="text-center p-6 bg-gray-100 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <i class="fas fa-briefcase text-indigo-600 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Explore Opportunities</h3>
+          <p>Get access to mentorship, internships, referrals, and job opportunities shared by alumni.</p>
+        </div>
+        <div class="text-center p-6 bg-gray-100 rounded-xl shadow-lg hover:shadow-2xl transition">
+          <i class="fas fa-comments text-indigo-600 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Chat & Learn</h3>
+          <p>Engage in one-on-one chats, share knowledge, and stay updated with community discussions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="py-20 bg-indigo-900 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-6">Why CampusChain?</h2>
+      <p class="text-lg mb-4">Many colleges lack a dedicated alumni network. CampusChain solves this by giving students and alumni a central platform to connect, communicate, and grow together.</p>
+      <p class="text-gray-300">Built for students, by students — to bridge the gap between college and career.</p>
+    </div>
+  </section>
+
+
+</body>
+</html>
