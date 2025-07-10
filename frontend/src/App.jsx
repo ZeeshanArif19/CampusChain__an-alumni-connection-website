@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "./components/ui/Button.jsx";
 import { Card, CardContent } from "./components/ui/Card.jsx";
 import {
-  CalendarIcon,
+  CalendarDays,
   UsersIcon,
   CheckCircleIcon,
   TrophyIcon,
@@ -53,7 +53,7 @@ export default function App() {
           <Card key={idx}>
             <CardContent className="p-4 text-center">
               <div className="text-purple-600 text-2xl mb-2">
-                {[<CalendarIcon />, <UsersIcon />, <CheckCircleIcon />, <TrophyIcon />][idx]}
+                {[<CalendarDays />, <UsersIcon />, <CheckCircleIcon />, <TrophyIcon />][idx]}
               </div>
               <div className="text-xl font-semibold">0</div>
               <div className="text-sm text-gray-500">{label}</div>
@@ -171,7 +171,7 @@ export default function App() {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* Dynamic Rows Here */}
+                  
                   </tbody>
                 </table>
               </div>
