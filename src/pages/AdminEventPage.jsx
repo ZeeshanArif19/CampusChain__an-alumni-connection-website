@@ -1,51 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import DashboardLayout from '../components/DashboardLayout';
 import { SavedEventsContext } from '../context/SavedEventsContext';
-
-const Sidebar = ({ isOpen, toggleSidebar }) => (
-  <div
-    className={`fixed top-0 left-0 h-full w-64 bg-gray-900 bg-opacity-95 backdrop-blur-md text-white border-r border-white/10 z-10 transition-transform duration-300 ${
-      isOpen ? 'translate-x-0' : '-translate-x-full'
-    } md:translate-x-0`}
-  >
-    <div className="p-6 border-b border-white/10">
-      <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-        Campus Chain
-      </h2>
-      <div className="inline-block mt-2 px-3 py-1 text-xs font-semibold text-white bg-gradient-to-r from-red-500 to-red-600 rounded-full">
-        ADMIN
-      </div>
-    </div>
-    <nav className="p-6">
-      <ul>
-        {[
-          { icon: 'fa-tachometer-alt', text: 'Dashboard', href: '/admin' },
-          { icon: 'fa-calendar-alt', text: 'Manage Events', href: '/admin/events', active: true },
-          { icon: 'fa-users', text: 'Users', href: '/admin/users' },
-          { icon: 'fa-chart-bar', text: 'Analytics', href: '/admin/analytics' },
-          { icon: 'fa-cog', text: 'Settings', href: '/admin/settings' },
-          { icon: 'fa-eye', text: 'Public View', href: '/admin/public' },
-          { icon: 'fa-sign-out-alt', text: 'Logout', href: '#logout' },
-        ].map((item, index) => (
-          <li key={index} className="my-2">
-            <a
-              href={item.href}
-              className={`flex items-center p-3 text-white/80 font-medium hover:text-white hover:bg-white/10 rounded transition-all ${
-                item.active ? 'text-white bg-white/10 border-r-4 border-indigo-400' : ''
-              }`}
-            >
-              <i className={`fas ${item.icon} mr-4 w-5 text-center`}></i>
-              {item.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  </div>
-);
 
 const Topbar = () => (
   <div className="flex justify-between items-center mb-10 p-5 bg-white rounded-2xl shadow-lg">
-    <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
+    <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-3 ml-8">
       <i className="fas fa-shield-alt"></i>
       Admin Dashboard - Events Management
     </h1>
@@ -285,7 +244,7 @@ const PreviewCard = ({ formData, selectedIcon }) => {
 const EventsTable = ({ events, onEdit, onDelete }) => (
   <div className="bg-white p-6 rounded-2xl shadow-lg">
     <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-      <i className="fas fa-list"></i>
+      <i className="fas fa-list ml-12"></i>
       Manage Events
     </h2>
     <table className="w-full border-collapse">
@@ -462,15 +421,8 @@ const AdminEventPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-r from-indigo-400 to-purple-500">
-      <button
-        className="md:hidden fixed top-5 left-5 z-20 bg-white p-3 rounded-xl shadow-lg text-gray-600 text-xl"
-        onClick={toggleSidebar}
-      >
-        <i className="fas fa-bars"></i>
-      </button>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 md:ml-64 p-6 bg-white/95 backdrop-blur-md min-h-screen">
+    <DashboardLayout role="admin">
+      <div className="min-h-screen">
         <Topbar />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 mb-8">
           <StatCard icon="fa-calendar-alt" number={stats.totalEvents} label="Total Events" />
@@ -489,26 +441,24 @@ const AdminEventPage = () => {
           </div>
         )}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 mb-10">
-          <EventForm
-            onSubmit={handleSubmit}
-            onClear={clearForm}
-            editingEventId={editingEventId}
-            formData={formData}
-            setFormData={setFormData}
-            selectedIcon={selectedIcon}
-            setSelectedIcon={setSelectedIcon}
-          />
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-              <i className="fas fa-eye"></i>
-              Live Preview
-            </h2>
+          <div>
+            <EventForm
+              onSubmit={handleSubmit}
+              onClear={clearForm}
+              editingEventId={editingEventId}
+              formData={formData}
+              setFormData={setFormData}
+              selectedIcon={selectedIcon}
+              setSelectedIcon={setSelectedIcon}
+            />
+          </div>
+          <div>
             <PreviewCard formData={formData} selectedIcon={selectedIcon} />
           </div>
         </div>
         <EventsTable events={events} onEdit={editEvent} onDelete={deleteEvent} />
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
