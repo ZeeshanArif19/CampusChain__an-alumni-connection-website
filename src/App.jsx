@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
   import { SavedEventsProvider } from './context/SavedEventsContext';
+  import LandingPage from './pages/LandingPage';
+  import AuthPage from './pages/AuthPage';
   import AdminDashboard from './pages/AdminDashboard';
   import AlumniDashboard from './pages/AlumniDashboard';
   import StudentDashboard from './pages/StudentDashboard';
@@ -18,6 +20,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
       <SavedEventsProvider>
         <Router>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/events" element={<AdminEventPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
