@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import { SavedEventsContext } from '../context/SavedEventsContext';
+import { getInitials } from '../utils/profileUtils';
+import { useUserProfile } from '../context/UserProfileContext';
 
 const getProfile = (role) => {
   if (role === 'alumni') {
@@ -32,7 +34,7 @@ const EventsPage = () => {
 
   // Determine role from URL path
   const role = location.pathname.startsWith('/alumni') ? 'alumni' : 'student';
-  const profile = getProfile(role);
+  const { userProfile, isLoading } = useUserProfile();
 
   useEffect(() => {
     // Load events from localStorage
@@ -72,8 +74,17 @@ const EventsPage = () => {
 
   const savedEventCards = getAllEvents().filter((event) => savedEvents[event.id]);
 
-  // Get initials for profile
-  const getInitials = (name) => name ? name.split(' ').map(n => n[0]).join('') : '';
+  // Show loading state
+  if (isLoading) {
+    return (
+      <DashboardLayout role={role}>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+          <span className="ml-3 text-gray-600">Loading events...</span>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout role={role}>
@@ -86,10 +97,10 @@ const EventsPage = () => {
           <div className="relative group">
             <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-100 cursor-pointer">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-xl">
-                {getInitials(profile.name)}
+                {getInitials(userProfile.name)}
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">{profile.name}</h3>
+                <h3 className="text-sm font-semibold text-gray-800">{userProfile.name}</h3>
                 <p className="text-xs text-gray-500">{role.charAt(0).toUpperCase() + role.slice(1)}</p>
               </div>
             </div>

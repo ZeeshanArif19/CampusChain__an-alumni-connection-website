@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
+import { getInitials } from '../utils/profileUtils';
+import { useUserProfile } from '../context/UserProfileContext';
 
 const AlumniPage = () => {
   const navigate = useNavigate();
@@ -8,6 +10,7 @@ const AlumniPage = () => {
   const [collegeFilter, setCollegeFilter] = useState('all');
   const [locationFilter, setLocationFilter] = useState('all');
   const [filteredAlumni, setFilteredAlumni] = useState([]);
+  const { userProfile, isLoading } = useUserProfile();
 
   const alumni = [
     {
@@ -43,6 +46,18 @@ const AlumniPage = () => {
     setFilteredAlumni(filtered);
   }, [searchInput, collegeFilter, locationFilter]);
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <DashboardLayout role="student">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+          <span className="ml-3 text-gray-600">Loading alumni directory...</span>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout role="student">
       <div className="space-y-6">
@@ -54,10 +69,10 @@ const AlumniPage = () => {
           <div className="relative group">
             <div className="flex items-center gap-3 p-2 rounded-xl hover:bg-gray-100 cursor-pointer">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold">
-                BK
+                {getInitials(userProfile.name)}
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-gray-800">Bhavya Kapoor</h3>
+                <h3 className="text-sm font-semibold text-gray-800">{userProfile.name}</h3>
                 <p className="text-xs text-gray-500">Student</p>
               </div>
             </div>

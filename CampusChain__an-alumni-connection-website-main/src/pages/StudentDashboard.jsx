@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import { SavedEventsContext } from '../context/SavedEventsContext';
+import { getInitials } from '../utils/profileUtils';
+import { useUserProfile } from '../context/UserProfileContext';
 
 const mockNotifications = [
   { id: 1, message: 'Your registration for AI Hackathon 2025 is confirmed!' },
@@ -11,6 +13,7 @@ const StudentDashboard = () => {
   const { savedEvents } = useContext(SavedEventsContext);
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const { userProfile, isLoading } = useUserProfile();
 
   useEffect(() => {
     // Load events from localStorage
@@ -107,32 +110,32 @@ const StudentDashboard = () => {
           endDate: '2025-02-03',
           description: 'Intensive web development bootcamp covering HTML, CSS, JavaScript, and modern frameworks.',
           url: 'https://example.com/web-bootcamp',
-          icon: 'fas fa-laptop-code',
-          status: 'Active',
-          applicants: 0,
-        },
-        {
-          id: 8,
-          title: 'Coding Competition',
-          category: 'Competition',
-          location: 'Online',
-          startDate: '2025-01-25',
-          endDate: '2025-01-25',
-          description: 'Test your coding skills in this competitive programming challenge.',
-          url: 'https://example.com/coding-comp',
-          icon: 'fas fa-trophy',
-          status: 'Active',
-          applicants: 0,
+              icon: 'fas fa-laptop-code',
+              status: 'Active',
+              applicants: 0,
+            },
+            {
+              id: 8,
+              title: 'Coding Competition',
+              category: 'Competition',
+              location: 'Online',
+              startDate: '2025-01-25',
+              endDate: '2025-01-25',
+              description: 'Test your coding skills in this competitive programming challenge.',
+              url: 'https://example.com/coding-comp',
+              icon: 'fas fa-trophy',
+              status: 'Active',
+              applicants: 0,
+            }
+          ];
+          
+          localStorage.setItem('events', JSON.stringify(sampleEvents));
+          eventsData = sampleEvents;
         }
-      ];
-      
-      localStorage.setItem('events', JSON.stringify(sampleEvents));
-      eventsData = sampleEvents;
-    }
-    
-    setEvents(eventsData);
-    setNotifications(mockNotifications);
-  }, []);
+        
+        setEvents(eventsData);
+        setNotifications(mockNotifications);
+      }, []);
 
   // Count only saved events that exist in the events list
   const savedCount = events.filter((event) => savedEvents[event.id]).length;
@@ -142,6 +145,18 @@ const StudentDashboard = () => {
   
   // Count job opportunities (internships)
   const jobOpportunitiesCount = events.filter((event) => event.category === 'Internship').length;
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <DashboardLayout role="student">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+          <span className="ml-3 text-gray-600">Loading dashboard...</span>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout role="student">
@@ -154,10 +169,10 @@ const StudentDashboard = () => {
           </div>
           <div className="absolute left-12 top-16 flex items-center gap-4">
             <div className="w-20 h-20 rounded-full bg-white border-4 border-indigo-400 flex items-center justify-center text-indigo-600 font-bold text-3xl shadow-lg ml-4 mb-8">
-              BK
+              {getInitials(userProfile.name)}
             </div>
             <div className="text-white drop-shadow-lg">
-              <h2 className="text-2xl font-bold">Welcome, Bhavya!</h2>
+              <h2 className="text-2xl font-bold">Welcome, {userProfile.name.split(' ')[0]}!</h2>
               <p className="text-base opacity-90">Stay connected with your campus and explore the latest opportunities and events.</p>
             </div>
           </div>

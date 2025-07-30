@@ -1,6 +1,8 @@
 import DashboardLayout from '../components/DashboardLayout';
 import { useEffect, useState, useContext } from 'react';
 import { SavedEventsContext } from '../context/SavedEventsContext';
+import { getInitials } from '../utils/profileUtils';
+import { useUserProfile } from '../context/UserProfileContext';
 
 const mockNotifications = [
   { id: 1, message: 'Alumni Meetup 2025 registration is open!' },
@@ -16,6 +18,7 @@ const AlumniDashboard = () => {
   const { savedEvents } = useContext(SavedEventsContext);
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const { userProfile, isLoading } = useUserProfile();
 
   useEffect(() => {
     // Load events from localStorage
@@ -28,6 +31,18 @@ const AlumniDashboard = () => {
   // Count only saved events that exist in the events list
   const savedCount = events.filter((event) => savedEvents[event.id]).length;
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <DashboardLayout role="alumni">
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+          <span className="ml-3 text-gray-600">Loading dashboard...</span>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout role="alumni">
       <div className="space-y-8">
@@ -39,10 +54,10 @@ const AlumniDashboard = () => {
           </div>
           <div className="absolute left-12 top-16 flex items-center gap-4">
             <div className="w-20 h-20 rounded-full bg-white border-4 border-indigo-400 flex items-center justify-center text-indigo-600 font-bold text-3xl shadow-lg ml-4 mb-8">
-              AK
+              {getInitials(userProfile.name)}
             </div>
             <div className="text-white drop-shadow-lg">
-              <h2 className="text-2xl font-bold">Welcome back, Bhavya!</h2>
+              <h2 className="text-2xl font-bold">Welcome back, {userProfile.name.split(' ')[0]}!</h2>
               <p className="text-base opacity-90">Stay connected with your alumni network, join events, and expand your professional connections.</p>
             </div>
           </div>

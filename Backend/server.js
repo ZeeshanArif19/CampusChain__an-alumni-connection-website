@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Validate env variables
-if (!process.env.MONGO_URI_STUDENT || !process.env.MONGO_URI_ALUMNI) {
+if (!process.env.MONGO_URI_STUDENT || !process.env.MONGO_URI_ALUMNI || !process.env.MONGO_URI_LOGINDB) {
   console.error('Missing environment variables for MongoDB URIs.');
   process.exit(1);
 }
@@ -29,6 +29,8 @@ const alumniDBConnection = mongoose.createConnection(process.env.MONGO_URI_ALUMN
   serverSelectionTimeoutMS: 30000,
 });
 
+const loginDBConnection = require('./LoginDB');
+
 // Log connection events
 studentDBConnection.on('connected', () => console.log('✅ Connected to StudentDB'));
 studentDBConnection.on('error', (err) => console.error('❌ StudentDB error:', err));
@@ -39,6 +41,7 @@ alumniDBConnection.on('error', (err) => console.error('❌ AlumniDB error:', err
 // Load schemas and create models
 const Student = studentDBConnection.model('Student', require('./models/Student').schema);
 const Alumni = alumniDBConnection.model('Alumni', require('./models/Alumni').schema);
+const User = loginDBConnection.model('User', require('./models/User').schema);
 
 // Connection readiness middleware
 const checkConnections = () => {
@@ -54,17 +57,23 @@ app.use((req, res, next) => {
     });
 });
 
+
 // Load routes with models
 const studentRoutes = require('./routes/studentRoutes')(Student);
 const alumniRoutes = require('./routes/alumniRoutes')(Alumni);
+const authRoutes = require('./routes/authRoutes')(User);
+
 
 app.use('/api/student', studentRoutes);
 app.use('/api/alumni', alumniRoutes);
+app.use('/api/auth', authRoutes);
 
 // Start server after DBs are connected
+
 Promise.all([
   studentDBConnection.asPromise(),
   alumniDBConnection.asPromise(),
+  loginDBConnection.asPromise(),
 ])
   .then(() => {
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

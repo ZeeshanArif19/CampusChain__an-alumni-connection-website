@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { getInitials } from '../utils/profileUtils';
+import { useUserProfile } from '../context/UserProfileContext';
 
 const Sidebar = ({ role, isSidebarOpen, setIsSidebarOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { userProfile } = useUserProfile();
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
   };
+
+
 
   useEffect(() => {
     const setActiveLink = () => {
@@ -58,6 +63,19 @@ const Sidebar = ({ role, isSidebarOpen, setIsSidebarOpen }) => {
             </button>
             <span className="inline-block mt-2 px-3 py-1 text-[0.7em] font-semibold text-white bg-gradient-to-r from-[#e53e3e] to-[#c53030] rounded-[12px]">ADMIN</span>
           </div>
+          
+          {/* User Profile Section */}
+          <div className="p-[20px_30px] border-b border-[rgba(255,255,255,0.1)]">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                {getInitials(userProfile.name)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-semibold text-white truncate">{userProfile.name}</h3>
+                <p className="text-xs text-gray-300 truncate">{userProfile.headline || 'Administrator'}</p>
+              </div>
+            </div>
+          </div>
           <nav className="p-[30px_0]">
             <ul className="list-none">
               {[
@@ -106,6 +124,19 @@ const Sidebar = ({ role, isSidebarOpen, setIsSidebarOpen }) => {
             </button>
             <span className="inline-block mt-2 px-3 py-1 text-[0.7em] font-semibold text-white bg-gradient-to-r from-[#e53e3e] to-[#c53030] rounded-[12px]">STUDENT</span>
           </div>
+          
+          {/* User Profile Section */}
+          <div className="p-[20px_30px] border-b border-[rgba(255,255,255,0.1)]">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                {getInitials(userProfile.name)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-semibold text-white truncate">{userProfile.name}</h3>
+                <p className="text-xs text-gray-300 truncate">{userProfile.headline || 'Student'}</p>
+              </div>
+            </div>
+          </div>
           <nav className="sidebar-nav p-[30px_0]">
             <ul className="list-none">
               {[
@@ -153,6 +184,19 @@ const Sidebar = ({ role, isSidebarOpen, setIsSidebarOpen }) => {
               &times;
             </button>
             <span className="inline-block mt-2 px-3 py-1 text-[0.7em] font-semibold text-white bg-gradient-to-r from-[#e53e3e] to-[#c53030] rounded-[12px]">ALUMNI</span>
+          </div>
+          
+          {/* User Profile Section */}
+          <div className="p-[20px_30px] border-b border-[rgba(255,255,255,0.1)]">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg">
+                {getInitials(userProfile.name)}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-semibold text-white truncate">{userProfile.name}</h3>
+                <p className="text-xs text-gray-300 truncate">{userProfile.headline || 'Alumni'}</p>
+              </div>
+            </div>
           </div>
           <nav className="sidebar-nav p-[30px_0]">
             <ul className="list-none">

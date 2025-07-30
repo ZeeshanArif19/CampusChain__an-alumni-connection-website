@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import AuthPage from './pages/AuthPage';
 import { SavedEventsProvider } from './context/SavedEventsContext';
+import RouteWrapper from './components/RouteWrapper';
 import AdminDashboard from './pages/AdminDashboard';
 import AlumniDashboard from './pages/AlumniDashboard';
 import StudentDashboard from './pages/StudentDashboard';
@@ -19,23 +22,25 @@ function App() {
     <SavedEventsProvider>
       <Router>
         <Routes>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/events" element={<AdminEventPage />} />
-          <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/analytics" element={<AdminAnalytics />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/admin" element={<RouteWrapper role="admin"><AdminDashboard /></RouteWrapper>} />
+          <Route path="/admin/events" element={<RouteWrapper role="admin"><AdminEventPage /></RouteWrapper>} />
+          <Route path="/admin/users" element={<RouteWrapper role="admin"><AdminUsersPage /></RouteWrapper>} />
+          <Route path="/admin/analytics" element={<RouteWrapper role="admin"><AdminAnalytics /></RouteWrapper>} />
+          <Route path="/admin/settings" element={<RouteWrapper role="admin"><AdminSettings /></RouteWrapper>} />
           <Route path="/admin/public" element={<div>Public View Page</div>} />
-          <Route path="/student" element={<StudentDashboard />} />
-          <Route path="/student/events" element={<EventsPage />} />
-          <Route path="/student/profile" element={<StudentProfile />} />
-          <Route path="/student/settings" element={<StudentSettings />} />
-          <Route path="/alumni/events" element={<EventsPage />} />
-          <Route path="/student/alumni" element={<AlumniPage />} />
-          <Route path="/student/alumni/profile/:id" element={<AlumniProfile />} />
-          <Route path="/alumni" element={<AlumniDashboard />} />
-          <Route path="/alumni/alumni" element={<AlumniPage />} />
-          <Route path="/alumni/profile" element={<AlumniProfile />} />
-          <Route path="/alumni/settings" element={<AlumniSettings />} />
+          <Route path="/student" element={<RouteWrapper role="student"><StudentDashboard /></RouteWrapper>} />
+          <Route path="/student/events" element={<RouteWrapper role="student"><EventsPage /></RouteWrapper>} />
+          <Route path="/student/profile" element={<RouteWrapper role="student"><StudentProfile /></RouteWrapper>} />
+          <Route path="/student/settings" element={<RouteWrapper role="student"><StudentSettings /></RouteWrapper>} />
+          <Route path="/alumni/events" element={<RouteWrapper role="alumni"><EventsPage /></RouteWrapper>} />
+          <Route path="/student/alumni" element={<RouteWrapper role="student"><AlumniPage /></RouteWrapper>} />
+          <Route path="/student/alumni/profile/:id" element={<RouteWrapper role="student"><AlumniProfile /></RouteWrapper>} />
+          <Route path="/alumni" element={<RouteWrapper role="alumni"><AlumniDashboard /></RouteWrapper>} />
+          <Route path="/alumni/alumni" element={<RouteWrapper role="alumni"><AlumniPage /></RouteWrapper>} />
+          <Route path="/alumni/profile" element={<RouteWrapper role="alumni"><AlumniProfile /></RouteWrapper>} />
+          <Route path="/alumni/settings" element={<RouteWrapper role="alumni"><AlumniSettings /></RouteWrapper>} />
           <Route
             path="*"
             element={
