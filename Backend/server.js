@@ -59,9 +59,9 @@ app.use((req, res, next) => {
 
 
 // Load routes with models
-const studentRoutes = require('./routes/studentRoutes')(Student);
+const studentRoutes = require('./routes/studentRoutes')(Student, User);
 const alumniRoutes = require('./routes/alumniRoutes')(Alumni);
-const authRoutes = require('./routes/authRoutes')(User);
+const authRoutes = require('./routes/authRoutes')(User, Student, Alumni);
 
 
 app.use('/api/student', studentRoutes);
