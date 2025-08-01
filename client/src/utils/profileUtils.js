@@ -31,6 +31,18 @@ export const getUserProfile = async (role, email) => {
     email = storedEmail;
   }
 
+  if (role === 'admin') {
+    // For admin, just return minimal profile from localStorage
+    return {
+      name: localStorage.getItem('userName') || 'Admin',
+      role: 'admin',
+      email: email,
+      headline: '',
+      about: '',
+      profilePhoto: ''
+    };
+  }
+
   try {
     const endpoint = role === 'alumni' ? '/alumni/get/' : '/student/get/';
     const response = await axios.get(`${API_BASE_URL}${endpoint}${email}`);

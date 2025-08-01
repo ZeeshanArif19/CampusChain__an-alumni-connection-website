@@ -9,12 +9,27 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Prevent browser from caching the login page
+    const meta = document.createElement('meta');
+    meta.httpEquiv = 'Cache-Control';
+    meta.content = 'no-store, no-cache, must-revalidate, max-age=0';
+    document.head.appendChild(meta);
+
+    // Force reload if coming from a protected page (after logout)
+    if (performance && performance.navigation && performance.navigation.type === 2) {
+      window.location.reload(true);
+    }
+
     const params = new URLSearchParams(window.location.search);
     if (params.get('mode') === 'signup') {
       setActive(true);
     } else {
       setActive(false);
     }
+
+    return () => {
+      document.head.removeChild(meta);
+    };
   }, []);
 
   // Signup Handler
@@ -50,7 +65,11 @@ const handleSignIn = async (e) => {
   setLoading(true);
 
   try {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    // Use /api/admin/login for admin, /api/auth/login for others
+    const loginUrl = loginData.role === 'admin'
+      ? 'http://localhost:5000/api/admin/login'
+      : 'http://localhost:5000/api/auth/login';
+    const res = await fetch(loginUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(loginData),

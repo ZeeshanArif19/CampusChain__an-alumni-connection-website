@@ -1,50 +1,49 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/DashboardLayout';
 import { getInitials } from '../utils/profileUtils';
 import { useUserProfile } from '../context/UserProfileContext';
 
 const AlumniPage = () => {
+
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState('');
   const [collegeFilter, setCollegeFilter] = useState('all');
   const [locationFilter, setLocationFilter] = useState('all');
-  const [filteredAlumni, setFilteredAlumni] = useState([]);
   const { userProfile, isLoading } = useUserProfile();
 
+  // Mock alumni data (restore to original state)
   const alumni = [
     {
-      id: 'alumni1',
-      name: 'Ananya Sharma',
+      id: 1,
+      name: 'Aarav Sharma',
       college: 'IIT Bombay',
       location: 'Mumbai',
-      position: 'Software Engineer at Google',
+      currentJob: 'Software Engineer at Google',
     },
     {
-      id: 'alumni2',
-      name: 'Rahul Verma',
+      id: 2,
+      name: 'Priya Singh',
       college: 'IIT Delhi',
       location: 'Delhi',
-      position: 'Product Manager at Microsoft',
+      currentJob: 'Data Scientist at Microsoft',
     },
     {
-      id: 'alumni3',
-      name: 'Priya Nair',
+      id: 3,
+      name: 'Rahul Verma',
       college: 'IIT Bangalore',
       location: 'Bangalore',
-      position: 'Data Scientist at Amazon',
+      currentJob: 'Product Manager at Amazon',
     },
   ];
 
-  useEffect(() => {
-    const filtered = alumni.filter((alumnus) => {
-      const matchesSearch = alumnus.name.toLowerCase().includes(searchInput.toLowerCase());
-      const matchesCollege = collegeFilter === 'all' || alumnus.college === collegeFilter;
-      const matchesLocation = locationFilter === 'all' || alumnus.location === locationFilter;
-      return matchesSearch && matchesCollege && matchesLocation;
-    });
-    setFilteredAlumni(filtered);
-  }, [searchInput, collegeFilter, locationFilter]);
+  const filteredAlumni = alumni.filter((alumnus) => {
+    const matchesSearch = alumnus.name?.toLowerCase().includes(searchInput.toLowerCase());
+    const matchesCollege = collegeFilter === 'all' || alumnus.college === collegeFilter;
+    const matchesLocation = locationFilter === 'all' || alumnus.location === locationFilter;
+    return matchesSearch && matchesCollege && matchesLocation;
+  });
 
   // Show loading state
   if (isLoading) {
@@ -140,11 +139,11 @@ const AlumniPage = () => {
           ) : (
             filteredAlumni.map((alumnus) => (
               <div
-                key={alumnus.id}
+                key={alumnus._id || alumnus.id}
                 className="bg-white rounded-xl shadow overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
                 data-college={alumnus.college}
                 data-location={alumnus.location}
-                onClick={() => navigate(`/student/alumni/profile/${alumnus.id}`)}
+                onClick={() => navigate(`/student/alumni/profile/${alumnus._id || alumnus.id}`)}
               >
                 <div className="h-48 bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-4xl">
                   <i className="fas fa-user-graduate"></i>
@@ -167,7 +166,7 @@ const AlumniPage = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <i className="fas fa-briefcase text-indigo-400 w-4"></i>
-                      <span>{alumnus.position}</span>
+                      <span>{alumnus.currentJob || alumnus.position}</span>
                     </div>
                   </div>
                 </div>

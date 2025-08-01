@@ -1,21 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 
-const LogoutButton = ({ children }) => {
+const LogoutButton = ({ children, className = '' }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Remove all user data and token
-    localStorage.removeItem('token');
-    localStorage.removeItem('userEmail');
-    // Optionally clear other user-related storage
+    localStorage.clear();
     sessionStorage.clear();
-    // Redirect and replace history so back button doesn't work
-    navigate('/', { replace: true });
-    window.location.replace('/'); // Double insurance: hard redirect
+    // Push a dummy state to prevent back navigation
+    window.history.pushState(null, '', window.location.href);
+    // Listen for back navigation and always go to landing page
+    window.addEventListener('popstate', function () {
+      window.location.replace('/');
+    });
+    // Replace current entry with landing page
+    window.location.replace('/');
   };
 
   return (
-    <button onClick={handleLogout} className="w-full text-left">
+    <button onClick={handleLogout} className={`w-full text-left ${className}`}>
       {children || 'Logout'}
     </button>
   );

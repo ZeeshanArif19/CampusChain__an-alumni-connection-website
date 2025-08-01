@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import { FaUsers, FaUserGraduate, FaSearch } from 'react-icons/fa';
+import { API_BASE_URL } from '../config';
 
 // Helper to classify student type
 function getStudentType(profile) {
@@ -17,24 +18,23 @@ const AdminUsersPage = () => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    // Load student profiles (assuming only one for now, can be extended to multiple)
-    const studentProfile = localStorage.getItem('studentProfile');
-    let studentsArr = [];
-    if (studentProfile) {
-      const parsed = JSON.parse(studentProfile);
-      studentsArr = [parsed];
-    }
-    setStudents(studentsArr);
-
-    // Load alumni profiles (assume array in localStorage)
-    const alumniProfiles = localStorage.getItem('alumniProfiles');
-    let alumniArr = [];
-    if (alumniProfiles) {
-      alumniArr = JSON.parse(alumniProfiles);
-    }
-    // Sort alumni by college name
-    alumniArr.sort((a, b) => (a.college || '').localeCompare(b.college || ''));
-    setAlumni(alumniArr);
+    // Fetch students and alumni from backend
+    const fetchUsers = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_BASE_URL}/admin/all-users`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setStudents(data.students || []);
+          setAlumni((data.alumni || []).sort((a, b) => (a.college || '').localeCompare(b.college || '')));
+        }
+      } catch (err) {
+        // Optionally handle error
+      }
+    };
+    fetchUsers();
   }, []);
 
   // Filter students and alumni by search

@@ -20,7 +20,7 @@ module.exports = (Student, User) => {
   const router = express.Router();
 
   // Create profile - automatically use the email from loginDB
-  router.post('/create', async (req, res) => {
+  router.post('/create', authenticateToken, async (req, res) => {
     try {
       const { email, ...profileData } = req.body;
       
@@ -168,7 +168,7 @@ module.exports = (Student, User) => {
   });
 
   // New route to get or create profile
-  router.get('/get-or-create/:email', async (req, res) => {
+  router.get('/get-or-create/:email', authenticateToken, async (req, res) => {
     try {
       const { email } = req.params;
       
@@ -199,7 +199,7 @@ module.exports = (Student, User) => {
   });
 
   // New route to validate email consistency
-  router.get('/validate-email/:email', async (req, res) => {
+  router.get('/validate-email/:email', authenticateToken, async (req, res) => {
     try {
       const { email } = req.params;
       const validationResult = await validateEmailConsistency(email);

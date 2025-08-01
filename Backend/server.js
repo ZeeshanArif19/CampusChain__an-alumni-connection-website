@@ -57,16 +57,32 @@ app.use((req, res, next) => {
     });
 });
 
+// Prevent caching of protected pages
+const nocache = (req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  next();
+};
 
 // Load routes with models
 const studentRoutes = require('./routes/studentRoutes')(Student, User);
 const alumniRoutes = require('./routes/alumniRoutes')(Alumni);
 const authRoutes = require('./routes/authRoutes')(User, Student, Alumni);
 
+const eventRoutes = require('./routes/eventRoutes');
+// Expose Student and Alumni models to adminRoutes via app.locals
+app.locals.Student = Student;
+app.locals.Alumni = Alumni;
+const adminRoutes = require('./routes/adminRoutes')(User);
 
 app.use('/api/student', studentRoutes);
-app.use('/api/alumni', alumniRoutes);
+app.use('/api/student', nocache, studentRoutes);
+app.use('/api/alumni', nocache, alumniRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/events', eventRoutes);
 
 // Start server after DBs are connected
 
@@ -77,6 +93,7 @@ Promise.all([
 ])
   .then(() => {
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
   })
   .catch((err) => {
     console.error('❌ Could not connect to databases:', err);

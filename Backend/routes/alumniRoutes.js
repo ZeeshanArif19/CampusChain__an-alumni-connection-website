@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
 module.exports = (Alumni) => {
   const router = express.Router();
 
-  router.post('/create', async (req, res) => {
+  router.post('/create', authenticateToken, async (req, res) => {
     try {
       const existing = await Alumni.findOne({ email: req.body.email });
       if (existing) {
@@ -62,5 +62,9 @@ module.exports = (Alumni) => {
     }
   });
 
+  // You may want to add more protected alumni routes here as needed
   return router;
-};
+
+
+}
+
